@@ -83,18 +83,15 @@ export async function POST(req: NextRequest) {
         const e = err instanceof Error ? err : new Error(String(err));
         lastError = e;
 
-        // Executable not found → try next candidate
-        const msg = e.message.toLowerCase();
-        if (
-          msg.includes("enoent") ||
-          msg.includes("not found") ||
-          msg.includes("not recognized") ||
-          msg.includes("cannot find")
-        ) {
+        // Only skip to the next candidate when the OS couldn't find the
+        // executable at all (Node throws with code ENOENT).  Any other
+        // failure means Python ran and the script itself crashed — stop
+        // immediately so the real error reaches the client.
+        const code = (e as NodeJS.ErrnoException).code;
+        if (code === "ENOENT") {
           continue;
         }
 
-        // Script ran but crashed (wrong packages, syntax error, etc.) — stop
         throw e;
       }
     }

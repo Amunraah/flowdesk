@@ -147,12 +147,43 @@ export default function VoicePage() {
             </div>
           )}
 
-          {/* Error */}
+          {/* Error — with special treatment for missing model files */}
           {error && (
-            <div className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
-              <AlertCircle size={14} className="text-red-400 mt-0.5 shrink-0" />
-              <p className="text-xs text-red-300">{error}</p>
-            </div>
+            (() => {
+              const isMissingModel =
+                error.toLowerCase().includes("voices") ||
+                error.toLowerCase().includes(".onnx") ||
+                error.toLowerCase().includes("kokoro-v0");
+
+              return isMissingModel ? (
+                <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle size={14} className="text-amber-400 shrink-0" />
+                    <p className="text-xs font-semibold text-amber-300">
+                      Kokoro model files missing — download them first
+                    </p>
+                  </div>
+                  <p className="text-[11px] text-amber-200/70">
+                    Run these commands in the{" "}
+                    <span className="font-mono">flowdesk</span> project folder:
+                  </p>
+                  <pre className="text-[11px] font-mono bg-zinc-900 rounded p-2 text-zinc-300 whitespace-pre-wrap break-all">
+{`wget https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v0_19.onnx
+wget https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin -O voices.bin`}
+                  </pre>
+                  <p className="text-[10px] text-amber-200/50">
+                    Place both files in{" "}
+                    <span className="font-mono">C:\Users\Slarv\flowdesk\</span>
+                    , then try again.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
+                  <AlertCircle size={14} className="text-red-400 mt-0.5 shrink-0" />
+                  <p className="text-xs text-red-300">{error}</p>
+                </div>
+              );
+            })()
           )}
 
           {/* Generate button */}
