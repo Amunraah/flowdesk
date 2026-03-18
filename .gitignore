@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# user-generated content (scripts & audio produced at runtime)
+/public/scripts/*.txt
+/public/audio/*.wav
+/public/audio/*.mp3
+
+# kokoro TTS model files (large binaries, download separately)
+*.onnx
+voices.bin
