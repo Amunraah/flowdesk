@@ -38,9 +38,9 @@ export default function TrendsPage() {
   const [error, setError]       = useState<string | null>(null);
 
   // ── Google Trends state ───────────────────────────────────────────────
-  const [realTrends, setRealTrends]           = useState<string[]>([]);
+  const [realTrends, setRealTrends]               = useState<string[]>([]);
   const [realTrendsLoading, setRealTrendsLoading] = useState(true);
-  const [realTrendsError, setRealTrendsError] = useState<string | null>(null);
+  const [isFallback, setIsFallback]               = useState(false);
 
   // Pre-fill niche from Brainstorm, then fetch real trends
   useEffect(() => {
@@ -51,16 +51,19 @@ export default function TrendsPage() {
 
   async function fetchRealTrends() {
     setRealTrendsLoading(true);
-    setRealTrendsError(null);
     try {
-      const res = await fetch("/api/real-trends");
-      const data = await res.json() as { topics?: string[]; error?: string };
-      if (!res.ok) throw new Error(data.error ?? `Server error ${res.status}`);
+      const res  = await fetch("/api/real-trends");
+      const data = await res.json() as { topics?: string[]; isFallback?: boolean };
       setRealTrends(data.topics ?? []);
-    } catch (err) {
-      setRealTrendsError(
-        err instanceof Error ? err.message : "Could not load Google Trends"
-      );
+      setIsFallback(data.isFallback ?? false);
+    } catch {
+      // Network error hitting our own API — show fallback silently
+      setRealTrends([
+        "AI Tools 2026", "Passive Income Ideas", "ChatGPT Alternatives",
+        "Make Money Online", "Home Automation", "Electric Vehicles",
+        "Mental Health Tips", "Crypto 2026", "Remote Work Tools", "Side Hustle Ideas",
+      ]);
+      setIsFallback(true);
     } finally {
       setRealTrendsLoading(false);
     }
@@ -130,13 +133,13 @@ export default function TrendsPage() {
       <div className="mb-7 rounded-xl border border-zinc-800 bg-zinc-900 p-5">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-white">
-            🔥 Riktiga trender just nu
+            {isFallback ? "⭐ Populära ämnen" : "🔥 Riktiga trender just nu"}
           </h2>
           <button
             onClick={fetchRealTrends}
             disabled={realTrendsLoading}
             className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-medium text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-colors disabled:opacity-40"
-            title="Refresh Google Trends"
+            title="Refresh"
           >
             <RefreshCw size={11} className={realTrendsLoading ? "animate-spin" : ""} />
             Uppdatera
@@ -146,18 +149,11 @@ export default function TrendsPage() {
         {realTrendsLoading && (
           <div className="flex items-center gap-2 text-xs text-zinc-500">
             <Loader2 size={12} className="animate-spin" />
-            Hämtar trender från Google…
+            Hämtar trender…
           </div>
         )}
 
-        {realTrendsError && !realTrendsLoading && (
-          <div className="flex items-start gap-2 rounded-lg border border-red-500/20 bg-red-500/8 p-2.5">
-            <AlertCircle size={12} className="text-red-400 mt-0.5 shrink-0" />
-            <p className="text-[11px] text-red-300">{realTrendsError}</p>
-          </div>
-        )}
-
-        {realTrends.length > 0 && (
+        {!realTrendsLoading && realTrends.length > 0 && (
           <>
             <p className="text-[11px] text-zinc-600 mb-2.5">
               Klicka för att fylla i nisch-fältet
@@ -169,9 +165,13 @@ export default function TrendsPage() {
                   onClick={() => setNiche(topic)}
                   className={cn(
                     "rounded-full px-3 py-1 text-[11px] font-medium transition-all",
-                    niche === topic
-                      ? "bg-emerald-600 text-white ring-2 ring-emerald-500/40"
-                      : "bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/20 hover:bg-emerald-500/20 hover:text-emerald-200"
+                    isFallback
+                      ? niche === topic
+                        ? "bg-orange-500 text-white ring-2 ring-orange-400/40"
+                        : "bg-orange-500/10 text-orange-300 ring-1 ring-orange-500/20 hover:bg-orange-500/20 hover:text-orange-200"
+                      : niche === topic
+                        ? "bg-emerald-600 text-white ring-2 ring-emerald-500/40"
+                        : "bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/20 hover:bg-emerald-500/20 hover:text-emerald-200"
                   )}
                 >
                   {topic}

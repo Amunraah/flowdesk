@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface ScriptFile {
   filename: string;
+  content:  string;
   created:  number;
 }
 
@@ -18,13 +19,12 @@ function addActivity(type: string, description: string) {
 }
 
 export default function VoicePage() {
-  const [scripts, setScripts]             = useState<ScriptFile[]>([]);
-  const [selected, setSelected]           = useState<ScriptFile | null>(null);
-  const [scriptContent, setScriptContent] = useState("");
-  const [loadingList, setLoadingList]     = useState(true);
-  const [generating, setGenerating]       = useState(false);
-  const [error, setError]                 = useState<string | null>(null);
-  const [audioFile, setAudioFile]         = useState<string | null>(null);
+  const [scripts, setScripts]         = useState<ScriptFile[]>([]);
+  const [selected, setSelected]       = useState<ScriptFile | null>(null);
+  const [loadingList, setLoadingList] = useState(true);
+  const [generating, setGenerating]   = useState(false);
+  const [error, setError]             = useState<string | null>(null);
+  const [audioFile, setAudioFile]     = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/scripts")
@@ -34,30 +34,23 @@ export default function VoicePage() {
       .finally(() => setLoadingList(false));
   }, []);
 
-  async function selectScript(s: ScriptFile) {
+  function selectScript(s: ScriptFile) {
     setSelected(s);
     setAudioFile(null);
     setError(null);
-    try {
-      const res = await fetch(`/scripts/${s.filename}`);
-      const text = await res.text();
-      setScriptContent(text);
-    } catch {
-      setScriptContent("Could not load script content.");
-    }
   }
 
   async function generateVoice() {
-    if (!scriptContent.trim()) return;
+    if (!selected?.content.trim()) return;
     setError(null);
     setAudioFile(null);
     setGenerating(true);
 
     try {
       const res = await fetch("/api/generate-voice", {
-        method: "POST",
+        method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: scriptContent }),
+        body:    JSON.stringify({ text: selected.content }),
       });
 
       const data = await res.json() as { filename?: string; error?: string };
@@ -74,6 +67,7 @@ export default function VoicePage() {
 
   return (
     <main className="p-6 lg:p-8 pt-14 lg:pt-8">
+
       {/* Header */}
       <div className="mb-6 flex items-center gap-3">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10">
@@ -88,11 +82,13 @@ export default function VoicePage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {/* ── Left: script list ── */}
+
+        {/* ── Left: script list ────────────────────────────────────── */}
         <div>
           <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">
             Saved Scripts
           </h2>
+
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden min-h-[120px]">
             {loadingList ? (
               <div className="flex items-center justify-center p-8">
@@ -132,19 +128,24 @@ export default function VoicePage() {
           </div>
         </div>
 
-        {/* ── Right: content + generation ── */}
+        {/* ── Right: content preview + generation ──────────────────── */}
         <div className="flex flex-col gap-3">
           <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest">
             Script Content
           </h2>
 
-          <textarea
-            readOnly
-            value={scriptContent}
-            placeholder="Select a script from the list…"
-            rows={10}
-            className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 font-mono text-xs text-zinc-300 resize-none focus:outline-none placeholder:text-zinc-700"
-          />
+          {/* Content card */}
+          {selected ? (
+            <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4 max-h-[360px] overflow-y-auto">
+              <p className="font-mono text-xs text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
+                {selected.content}
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-zinc-800 bg-zinc-950 flex items-center justify-center min-h-[200px]">
+              <p className="text-xs text-zinc-700">Select a script from the list…</p>
+            </div>
+          )}
 
           {/* Error */}
           {error && (
@@ -154,9 +155,10 @@ export default function VoicePage() {
             </div>
           )}
 
+          {/* Generate button */}
           <button
             onClick={generateVoice}
-            disabled={!scriptContent.trim() || generating}
+            disabled={!selected || generating}
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {generating ? (
