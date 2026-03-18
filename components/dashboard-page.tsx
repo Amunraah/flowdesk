@@ -271,7 +271,7 @@ export default function DashboardPage() {
         const saveRes  = await fetch("/api/save-script", {
           method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ title: trend, content: scriptText }),
+          body:    JSON.stringify({ title: trend, text: scriptText }),
         });
         const saveData = (await saveRes.json()) as { filename?: string; error?: string };
         if (!saveRes.ok) throw new Error(saveData.error ?? `Status ${saveRes.status}`);
