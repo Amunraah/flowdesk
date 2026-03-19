@@ -1,0 +1,79 @@
+[
+  {
+    "id": "yt-strategy-001",
+    "title": "Channel Strategy Architect",
+    "description": "Analyserar din nisch och bygger en 90-dagars innehållsstrategi med publiceringsschema och KPI:er.",
+    "category": "youtube",
+    "agentType": "strategy",
+    "promptText": "Du är en expert på YouTube-strategi med 10 års erfarenhet av att växa kanaler.\n\nAnalysera följande nisch och skapa en detaljerad 90-dagars innehållsstrategi:\n\nNisch: [SKRIV DIN NISCH HÄR]\nMålgrupp: [BESKRIV DIN MÅLGRUPP]\nNuvarande prenumeranter: [ANTAL]\n\nLeverera strukturerat:\n1. INNEHÅLLSPELARE (5 st) — teman som kanalen ska äga\n2. PUBLICERINGSSCHEMA — hur ofta, vilka dagar, bästa tider\n3. 12 VIDEOIDÉER — konkreta titlar för första 90 dagarna\n4. KPI:er — vad ska mätas varje vecka?\n5. SNABBVINSTER — 3 saker att göra denna vecka för att accelerera tillväxten\n\nVar specifik, handlingsorienterad och undvik vaga råd.",
+    "tags": ["strategi", "planering", "tillväxt", "nisch"],
+    "createdAt": 1710000000000,
+    "updatedAt": 1710000000000
+  },
+  {
+    "id": "yt-ideas-002",
+    "title": "Viral Video Idea Generator",
+    "description": "Genererar 10 potentiellt virala videoidéer baserade på trender i din nisch.",
+    "category": "youtube",
+    "agentType": "ideas",
+    "promptText": "Du är en kreativ direktör specialiserad på viralt YouTube-innehåll.\n\nGenerera 10 videoidéer med viral potential för:\n\nNisch/Kanal: [BESKRIV DIN KANAL]\nTrend eller ämne att fokusera på: [ÄMNE]\nKanalstorlek: [LITEN/MEDEL/STOR]\n\nFör varje idé, leverera:\n- TITEL (klickvärd, 60 tecken max)\n- HOOK (de första 10 sekunderna — vad säger/visar du?)\n- VARFÖR VIRALT (psykologisk trigger: nyfikenhet, chock, värde, etc.)\n- THUMBNAIL-KONCEPT (ett mening)\n- SVÅRIGHETSGRAD ATT PRODUCERA (Lätt/Medel/Svår)\n\nRangordna efter viral potential. Tänk på vad som funkar RIGHT NOW.",
+    "tags": ["idéer", "viral", "kreativitet", "trender"],
+    "createdAt": 1710000001000,
+    "updatedAt": 1710000001000
+  },
+  {
+    "id": "yt-design-003",
+    "title": "Title & Thumbnail Blueprint",
+    "description": "Skapar 5 optimerade titelversioner och detaljerade thumbnail-koncept för din video.",
+    "category": "youtube",
+    "agentType": "design",
+    "promptText": "Du är expert på YouTube-titlar och thumbnails med djup förståelse för klickpsykologi.\n\nSkapa 5 titelversioner och thumbnail-koncept för:\n\nVideoämne: [BESKRIV VIDEON]\nMålgrupp: [VEM ÄR TITTAREN?]\nKanalstil: [PROFESSIONELL/UNDERHÅLLANDE/UTBILDANDE/etc.]\n\nFör varje version:\n\nTITEL:\n- Primär titel (max 60 tecken)\n- A/B-testalternativ\n- SEO-nyckelord inkluderade\n\nTHUMBNAIL:\n- Bakgrundsfärg/miljö\n- Text overlay (max 4 ord, stor och tydlig)\n- Ansiktsuttryck/emoji (om person är med)\n- Visuell kontrast och färgschema\n- Varför detta lockar till klick\n\nRangordna de 5 versionerna efter klickpotential.",
+    "tags": ["thumbnail", "titel", "design", "CTR", "klick"],
+    "createdAt": 1710000002000,
+    "updatedAt": 1710000002000
+  },
+  {
+    "id": "yt-script-004",
+    "title": "Video Script Builder",
+    "description": "Skriver ett komplett videoschript med hook, intro, huvudinnehåll och outro.",
+    "category": "youtube",
+    "agentType": "script",
+    "promptText": "Du är en professionell YouTube-manusförfattare. Skriv ett komplett script.\n\nVideotitel: [TITEL]\nVideolängd: [MINUTER] minuter\nMålgrupp: [BESKRIV]\nTon: [CASUAL/PROFESSIONELL/UNDERHÅLLANDE/UTBILDANDE]\nHuvudpoäng tittaren ska ta med sig: [KÄRNBUDSKAP]\n\nSTRUKTUR:\n\n🎣 HOOK (0-15 sek)\nSå kraftfull att tittaren INTE kan scrolla förbi. Börja med en chock, fråga eller löfte.\n\n📢 INTRO (15-45 sek)\nBekräfta vad videon handlar om. Bygg förtroende. Ge tittaren anledning att stanna.\n\n🎯 HUVUDINNEHÅLL\nDela upp i tydliga sektioner med övergångar. Inkludera [ANTAL] huvudpunkter.\n\n💡 VALUE BOMBS\nMindst 3 konkreta, handlingsbara tips.\n\n🎬 OUTRO (sista 30 sek)\nSammanfatta. CTA till prenumeration/nästa video. Kliffhanger om nästa video.\n\nAnvänd [PAUSMARKERINGAR] och (visuella anteckningar) i scriptet.",
+    "tags": ["script", "manus", "storytelling", "hook"],
+    "createdAt": 1710000003000,
+    "updatedAt": 1710000003000
+  },
+  {
+    "id": "yt-seo-005",
+    "title": "YouTube SEO Optimizer",
+    "description": "Optimerar titel, beskrivning, taggar och kapitel för maximal synlighet i YouTube-sökning.",
+    "category": "youtube",
+    "agentType": "seo",
+    "promptText": "Du är en YouTube SEO-specialist. Optimera följande video för maximal organisk räckvidd.\n\nVideotitel (utkast): [TITEL]\nVideoämne: [BESKRIV INNEHÅLLET]\nPrimärt nyckelord: [HUVUDNYCKELORD]\nSekundära nyckelord: [LISTA 3-5 ORD]\nVideolängd: [MINUTER] min\n\nLeverera komplett SEO-paket:\n\n📌 OPTIMERAD TITEL\n- SEO-version (nyckelord tidigt)\n- Klickversion (emotion + nyckelord)\n\n📝 VIDEOBESKRIVNING (500+ ord)\n- Hook-mening (inkl. primärt nyckelord)\n- Sammanfattning av video\n- Tidsstämplar/kapitel\n- Relaterade nyckelord naturligt inbyggda\n- Länkar och CTA\n- Hashtags (3-5 st)\n\n🏷️ TAGGAR (20 st)\nBlandning av: exakta fraser, breda termer, relaterade ämnen\n\n📚 KAPITEL (om 8+ min)\nTimestamp: Kapiteltitel\n\n🔍 SÖKORDSSTRATEGI\nVilka ytterligare videor bör du göra för att dominera detta ämne?",
+    "tags": ["SEO", "sökord", "synlighet", "algoritm", "beskrivning"],
+    "createdAt": 1710000004000,
+    "updatedAt": 1710000004000
+  },
+  {
+    "id": "yt-community-006",
+    "title": "Community Growth System",
+    "description": "Bygger ett system för att växa och engagera din YouTube-community genom kommentarer, polls och community-inlägg.",
+    "category": "youtube",
+    "agentType": "community",
+    "promptText": "Du är expert på att bygga lojala YouTube-communities. Skapa ett community-system.\n\nKanal/Nisch: [BESKRIV]\nNuvarande situation: [PRENUMERANTER, ENGAGEMANG, PROBLEM]\nMål om 90 dagar: [SPECIFICERA]\n\nLeverera ett komplett system:\n\n💬 KOMMENTARSSTRATEGI\n- Hur svara på kommentarer (tid, ton, frekvens)\n- 10 frågor att ställa i videoslut som driver diskussion\n- Hur hantera negativa kommentarer\n\n📊 COMMUNITY-INLÄGG (5 st)\nFärdigskrivna inlägg för polls, behind-the-scenes, Q&A, milstolpar\n\n🏆 COMMUNITY-RITUALER\n- Återkommande serier tittarna ser fram emot\n- Hur skapa FOMO (fear of missing out)\n- Member loyalty program idéer\n\n🎯 30-DAGARS ENGAGEMANGSPLAN\nVad gör du varje dag för att öka engagemanget?\n\n📈 MÄTNING\nVilka metrics visar att communityn växer och mår bra?",
+    "tags": ["community", "engagemang", "lojalitet", "kommentarer"],
+    "createdAt": 1710000005000,
+    "updatedAt": 1710000005000
+  },
+  {
+    "id": "yt-monetization-007",
+    "title": "Monetization Acceleration Plan",
+    "description": "Skapar en diversifierad monetiseringsplan för YouTube-kanalen med multipla inkomstströmmar.",
+    "category": "youtube",
+    "agentType": "monetization",
+    "promptText": "Du är en YouTube-monetiseringsexpert. Bygg en komplett inkomststrategi.\n\nKanal: [BESKRIV KANAL OCH NISCH]\nNuläge: [PRENUMERANTER, VISNINGAR/MÅN, MONETISERAD JA/NEJ]\nMål: [MÅNADSINTÄKT DU VILL NÅ]\nTidslinje: [NÄR VILL DU NÅ MÅLET]\n\nLeverera en KOMPLETT MONETISERINGSPLAN:\n\n💰 INTÄKTSSTRÖMMAR (rangordnade efter potential)\n1. YouTube AdSense — när och hur mycket förväntat\n2. Affiliate marketing — vilka produkter passar din nisch?\n3. Sponsorsamarbeten — hur hitta och prissätta sponsors\n4. Egna produkter/kurser — vad kan du sälja till din publik?\n5. Members/Patreon — vad får betalande medlemmar?\n6. Konsultation/coaching — är detta möjligt i din nisch?\n\n📊 REALISTISK INTÄKTSPROGNOS\nMånad 1, 3, 6, 12 — baserat på din nuvarande tillväxttakt\n\n🎯 NÄSTA 3 ÅTGÄRDER\nKonkreta steg du kan ta DENNA VECKA för att tjäna mer pengar på din kanal\n\n⚠️ VANLIGASTE MISSTAG\nVad ska du undvika när du monetiserar?",
+    "tags": ["monetisering", "intäkter", "AdSense", "sponsor", "affär"],
+    "createdAt": 1710000006000,
+    "updatedAt": 1710000006000
+  }
+]

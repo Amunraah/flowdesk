@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar";
+import KeyboardShortcuts from "@/components/keyboard-shortcuts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,8 @@ export default function RootLayout({
           <div className="flex-1 min-w-0 lg:ml-[220px]">
             {children}
           </div>
+          {/* Globala tangentbordsgenvägar — Ctrl+K, Ctrl+E */}
+          <KeyboardShortcuts />
         </div>
       </body>
     </html>

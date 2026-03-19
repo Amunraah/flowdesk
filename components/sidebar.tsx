@@ -13,6 +13,7 @@ import {
   X,
   Zap,
   Package,
+  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,11 @@ const youtubeItems = [
 // Dropshipping-pipeline
 const dropshippingItems = [
   { href: "/dropshipping", label: "Studio",     icon: Package },
+];
+
+// Verktyg-sektion
+const toolItems = [
+  { href: "/prompts", label: "Prompt Library", icon: BookOpen },
 ];
 
 function NavContent({
@@ -102,6 +108,35 @@ function NavContent({
                   <Icon size={15} className={isActive ? "text-cyan-400" : "text-zinc-500"} />
                   {label}
                   {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-cyan-400" />}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Verktyg-sektion */}
+        <div>
+          <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
+            Verktyg
+          </p>
+          <div className="space-y-0.5">
+            {toolItems.map(({ href, label, icon: Icon }) => {
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClose}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-emerald-600/15 text-emerald-300"
+                      : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
+                  )}
+                >
+                  <Icon size={15} className={isActive ? "text-emerald-400" : "text-zinc-500"} />
+                  {label}
+                  {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400" />}
                 </Link>
               );
             })}
