@@ -17,7 +17,10 @@ import {
   Download,
   Zap,
   RotateCcw,
+  Package,        // Dropshipping-ikon
+  Youtube,        // YouTube-ikon
 } from "lucide-react";
+import ProductHunterWidget from "@/components/product-hunter-widget";
 import { cn } from "@/lib/utils";
 
 // ── existing types ────────────────────────────────────────────────────────────
@@ -136,6 +139,16 @@ function StepIcon({ status }: { status: StepStatus }) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function DashboardPage() {
+  // ── template-val: "youtube" | "dropshipping" ──────────────────────────────
+  type Template = "youtube" | "dropshipping";
+  const [template, setTemplate] = useState<Template>("youtube");
+
+  // Byt template och spara i localStorage
+  function switchTemplate(t: Template) {
+    setTemplate(t);
+    localStorage.setItem("fd_template", t);
+  }
+
   // existing state
   const [scriptCount, setScriptCount] = useState(0);
   const [audioCount,  setAudioCount]  = useState(0);
@@ -152,8 +165,11 @@ export default function DashboardPage() {
 
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // ── load stats ──────────────────────────────────────────────────────────────
+  // ── load stats + sparat template-val ────────────────────────────────────────
   useEffect(() => {
+    const saved = localStorage.getItem("fd_template");
+    if (saved === "dropshipping" || saved === "youtube") setTemplate(saved);
+
     fetch("/api/scripts")
       .then((r) => r.json())
       .then((d) => setScriptCount(Array.isArray(d) ? d.length : 0))
@@ -355,14 +371,53 @@ export default function DashboardPage() {
     <main className="p-6 lg:p-8 pt-14 lg:pt-8">
 
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="text-sm text-zinc-500 mt-1">
-          Your autonomous YouTube content pipeline
-        </p>
+      <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+          <p className="text-sm text-zinc-500 mt-1">
+            {template === "youtube"
+              ? "Your autonomous YouTube content pipeline"
+              : "Din automatiserade dropshipping-pipeline"}
+          </p>
+        </div>
+
+        {/* ── Template-väljare ── */}
+        <div className="flex items-center gap-1 rounded-xl border border-zinc-800 bg-zinc-900 p-1">
+          <button
+            onClick={() => switchTemplate("youtube")}
+            className={cn(
+              "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
+              template === "youtube"
+                ? "bg-sky-500/20 text-sky-300 border border-sky-500/30"
+                : "text-zinc-500 hover:text-zinc-300"
+            )}
+          >
+            <Youtube size={13} /> YouTube
+          </button>
+          <button
+            onClick={() => switchTemplate("dropshipping")}
+            className={cn(
+              "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
+              template === "dropshipping"
+                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                : "text-zinc-500 hover:text-zinc-300"
+            )}
+          >
+            <Package size={13} /> Dropshipping
+          </button>
+        </div>
       </div>
 
-      {/* ── AUTO RUN BUTTON ─────────────────────────────────────────────── */}
+      {/* ── AUTO RUN BUTTON (bara i YouTube-läge) ───────────────────────── */}
+      {template === "dropshipping" && (
+        <div className="mb-8">
+          <ProductHunterWidget />
+        </div>
+      )}
+
+      {/* ── AUTO RUN BUTTON (YouTube-läge) ──────────────────────────────── */}
+      {template === "youtube" && (
+      /* ── AUTO RUN BUTTON ─────────────────────────────────────────────── */
       <div className="mb-8">
         <button
           onClick={autoRunning ? undefined : startAutoRun}
@@ -564,6 +619,7 @@ export default function DashboardPage() {
           </div>
         )}
       </div>
+      )} {/* end YouTube-only auto-run block */}
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
