@@ -12,15 +12,22 @@ import {
   Menu,
   X,
   Zap,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  { href: "/",            label: "Dashboard",  icon: LayoutDashboard },
-  { href: "/brainstorm",  label: "Brainstorm", icon: Lightbulb },
-  { href: "/trends",      label: "Trends",     icon: TrendingUp },
-  { href: "/script",      label: "Script",     icon: FileText },
-  { href: "/voice",       label: "Voice",      icon: Mic },
+// YouTube-pipeline
+const youtubeItems = [
+  { href: "/",           label: "Dashboard",    icon: LayoutDashboard },
+  { href: "/brainstorm", label: "Brainstorm",   icon: Lightbulb },
+  { href: "/trends",     label: "Trends",       icon: TrendingUp },
+  { href: "/script",     label: "Script",       icon: FileText },
+  { href: "/voice",      label: "Voice",        icon: Mic },
+];
+
+// Dropshipping-pipeline
+const dropshippingItems = [
+  { href: "/dropshipping", label: "Studio",     icon: Package },
 ];
 
 function NavContent({
@@ -41,32 +48,66 @@ function NavContent({
       </div>
 
       {/* Nav links */}
-      <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto">
-        {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href;
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={onClose}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                isActive
-                  ? "bg-indigo-600/15 text-indigo-300"
-                  : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
-              )}
-            >
-              <Icon
-                size={15}
-                className={isActive ? "text-indigo-400" : "text-zinc-500"}
-              />
-              {label}
-              {isActive && (
-                <span className="ml-auto h-1.5 w-1.5 rounded-full bg-indigo-400" />
-              )}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 p-2 overflow-y-auto space-y-4">
+
+        {/* YouTube-sektion */}
+        <div>
+          <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
+            YouTube
+          </p>
+          <div className="space-y-0.5">
+            {youtubeItems.map(({ href, label, icon: Icon }) => {
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClose}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-indigo-600/15 text-indigo-300"
+                      : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
+                  )}
+                >
+                  <Icon size={15} className={isActive ? "text-indigo-400" : "text-zinc-500"} />
+                  {label}
+                  {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-indigo-400" />}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Dropshipping-sektion */}
+        <div>
+          <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
+            Dropshipping
+          </p>
+          <div className="space-y-0.5">
+            {dropshippingItems.map(({ href, label, icon: Icon }) => {
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClose}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-cyan-600/15 text-cyan-300"
+                      : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
+                  )}
+                >
+                  <Icon size={15} className={isActive ? "text-cyan-400" : "text-zinc-500"} />
+                  {label}
+                  {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-cyan-400" />}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
       </nav>
 
       {/* Footer */}
