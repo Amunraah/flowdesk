@@ -53,3 +53,6 @@ voices.bin
 __pycache__/
 *.pyc
 *.pyo
+
+# personal scratch / notes files in project root
+/*.txt
