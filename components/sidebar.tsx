@@ -16,25 +16,82 @@ import {
   BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMode } from "@/hooks/useMode";
+import { ModeSwitcher } from "@/components/mode-switcher";
 
 // YouTube-pipeline
 const youtubeItems = [
-  { href: "/",           label: "Dashboard",    icon: LayoutDashboard },
-  { href: "/brainstorm", label: "Brainstorm",   icon: Lightbulb },
-  { href: "/trends",     label: "Trends",       icon: TrendingUp },
-  { href: "/script",     label: "Script",       icon: FileText },
-  { href: "/voice",      label: "Voice",        icon: Mic },
+  { href: "/",           label: "Dashboard",  icon: LayoutDashboard },
+  { href: "/brainstorm", label: "Brainstorm", icon: Lightbulb },
+  { href: "/trends",     label: "Trends",     icon: TrendingUp },
+  { href: "/script",     label: "Script",     icon: FileText },
+  { href: "/voice",      label: "Voice",      icon: Mic },
 ];
 
 // Dropshipping-pipeline
 const dropshippingItems = [
-  { href: "/dropshipping", label: "Studio",     icon: Package },
+  { href: "/dropshipping", label: "Studio", icon: Package },
 ];
 
-// Verktyg-sektion
+// Verktyg-sektion (alltid synlig)
 const toolItems = [
   { href: "/prompts", label: "Prompt Library", icon: BookOpen },
 ];
+
+
+type NavItem = { href: string; label: string; icon: React.ElementType };
+
+function NavSection({
+  label,
+  items,
+  pathname,
+  onClose,
+  activeColor = "indigo",
+}: {
+  label: string;
+  items: NavItem[];
+  pathname: string;
+  onClose?: () => void;
+  activeColor?: "indigo" | "cyan" | "emerald" | "violet";
+}) {
+  const colors = {
+    indigo:  { bg: "bg-indigo-600/15",  text: "text-indigo-300",  icon: "text-indigo-400",  dot: "bg-indigo-400" },
+    cyan:    { bg: "bg-cyan-600/15",    text: "text-cyan-300",    icon: "text-cyan-400",    dot: "bg-cyan-400" },
+    emerald: { bg: "bg-emerald-600/15", text: "text-emerald-300", icon: "text-emerald-400", dot: "bg-emerald-400" },
+    violet:  { bg: "bg-violet-600/15",  text: "text-violet-300",  icon: "text-violet-400",  dot: "bg-violet-400" },
+  };
+  const c = colors[activeColor];
+
+  return (
+    <div>
+      <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
+        {label}
+      </p>
+      <div className="space-y-0.5">
+        {items.map(({ href, label: itemLabel, icon: Icon }) => {
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                isActive
+                  ? `${c.bg} ${c.text}`
+                  : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
+              )}
+            >
+              <Icon size={15} className={isActive ? c.icon : "text-zinc-500"} />
+              {itemLabel}
+              {isActive && <span className={`ml-auto h-1.5 w-1.5 rounded-full ${c.dot}`} />}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function NavContent({
   pathname,
@@ -43,6 +100,8 @@ function NavContent({
   pathname: string;
   onClose?: () => void;
 }) {
+  const { mode } = useMode();
+
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
@@ -53,95 +112,42 @@ function NavContent({
         <span className="text-sm font-bold text-white tracking-tight">Flowdesk</span>
       </div>
 
+      {/* Mode Switcher */}
+      <div className="border-b border-zinc-800 shrink-0">
+        <ModeSwitcher />
+      </div>
+
       {/* Nav links */}
       <nav className="flex-1 p-2 overflow-y-auto space-y-4">
 
-        {/* YouTube-sektion */}
-        <div>
-          <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
-            YouTube
-          </p>
-          <div className="space-y-0.5">
-            {youtubeItems.map(({ href, label, icon: Icon }) => {
-              const isActive = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={onClose}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-indigo-600/15 text-indigo-300"
-                      : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
-                  )}
-                >
-                  <Icon size={15} className={isActive ? "text-indigo-400" : "text-zinc-500"} />
-                  {label}
-                  {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-indigo-400" />}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+        {mode === "youtube" && (
+          <NavSection
+            label="YouTube"
+            items={youtubeItems}
+            pathname={pathname}
+            onClose={onClose}
+            activeColor="indigo"
+          />
+        )}
 
-        {/* Dropshipping-sektion */}
-        <div>
-          <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
-            Dropshipping
-          </p>
-          <div className="space-y-0.5">
-            {dropshippingItems.map(({ href, label, icon: Icon }) => {
-              const isActive = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={onClose}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-cyan-600/15 text-cyan-300"
-                      : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
-                  )}
-                >
-                  <Icon size={15} className={isActive ? "text-cyan-400" : "text-zinc-500"} />
-                  {label}
-                  {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-cyan-400" />}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+        {mode === "dropship" && (
+          <NavSection
+            label="Dropshipping"
+            items={dropshippingItems}
+            pathname={pathname}
+            onClose={onClose}
+            activeColor="cyan"
+          />
+        )}
 
-        {/* Verktyg-sektion */}
-        <div>
-          <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
-            Verktyg
-          </p>
-          <div className="space-y-0.5">
-            {toolItems.map(({ href, label, icon: Icon }) => {
-              const isActive = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={onClose}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-emerald-600/15 text-emerald-300"
-                      : "text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-100"
-                  )}
-                >
-                  <Icon size={15} className={isActive ? "text-emerald-400" : "text-zinc-500"} />
-                  {label}
-                  {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-400" />}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+        {/* Verktyg — alltid synlig */}
+        <NavSection
+          label="Verktyg"
+          items={toolItems}
+          pathname={pathname}
+          onClose={onClose}
+          activeColor="emerald"
+        />
 
       </nav>
 
